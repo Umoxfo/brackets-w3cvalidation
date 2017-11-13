@@ -15,7 +15,7 @@ define(function (require, exports, module) {
     const w3cvalidatorSever = new NodeDomain('w3cvalidator', ExtensionUtils.getModulePath(module, 'node/ValidationServer'));
 
     const COMMAND_ID = 'w3cvalidator.refresh',
-        PROVIDER_ID = 'w3cvalidator';
+          PROVIDER_ID = 'w3cvalidator';
 
     //var Strings = require("strings");
 
@@ -81,7 +81,7 @@ define(function (require, exports, module) {
 
     // Register the HTML Linting
     AppInit.appReady(function () {
-        CodeInspection.register("html", {
+        CodeInspection.register('html', {
             name: PROVIDER_ID,
             scanFileAsync: handleValidation
         });
@@ -89,11 +89,11 @@ define(function (require, exports, module) {
 
     // Command
     //CommandManager.register(Strings.REFRESH_W3C_VALIDATION, COMMAND_ID, _refreshValidation);
-    CommandManager.register("Refresh W3C validation", COMMAND_ID, refreshValidation);
+    CommandManager.register('Refresh W3C validation', COMMAND_ID, refreshValidation);
 
     // Menu
     const editMenu = Menus.getMenu(Menus.AppMenuBar.EDIT_MENU);
-    editMenu.addMenuItem(COMMAND_ID, "F9");
+    editMenu.addMenuItem(COMMAND_ID, 'F9');
 
     // Server launcher when extension is loaded
     runServer();
