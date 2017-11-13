@@ -5,7 +5,9 @@
     'use strict';
 
     const exec = require('child_process').exec,
-          vnu = require('vnu-jar');
+          vnu = 'lib/nu.validator/vnu.jar';
+
+    require('./Dependencies');
 
     /**
      * @private

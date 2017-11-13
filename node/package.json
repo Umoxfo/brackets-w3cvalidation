@@ -1,6 +1,7 @@
 {
     "private": true,
     "dependencies": {
-        "vnu-jar": "latest"
+        "extract-zip": "latest",
+        "request": "latest"
     }
 }
