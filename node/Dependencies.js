@@ -1,3 +1,7 @@
+/*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50, node: true */
+/*eslint-env node, es6, jquery */
+/*global $, require, Promise */
+
 'use strict';
 
 const os = require('os'),
