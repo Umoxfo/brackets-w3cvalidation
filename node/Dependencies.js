@@ -18,7 +18,7 @@ const URL = "https://github.com/validator/validator/releases/download/17.11.1/vn
 
 /**
  * @private
- * Time wait
+ * The timeout with Promise support.
  */
 function sleep(time, func) {
     return new Promise((resolve, reject) => setTimeout(() => resolve(), time)).then(func());
