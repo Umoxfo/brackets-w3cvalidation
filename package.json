@@ -17,11 +17,11 @@
         "brackets": ">=0.24.0"
     },
     "devDependencies": {
-        "gulp": "latest",
-        "gulp-uglify": "latest",
-        "gulp-zip": "latest",
         "del": "latest",
         "uglify-es": "latest",
-        "event-stream": "latest"
+        "event-stream": "latest",
+        "gulp": "latest",
+        "gulp-uglify": "latest",
+        "gulp-zip": "latest"
     }
 }
