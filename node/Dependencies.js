@@ -30,20 +30,19 @@ function sleep(time, func) {
  */
 function getLiblary() {
     new Promise((resolve, reject) => { // Download
-        request(URL).pipe(fs.createWriteStream(dest)).on('finish', () => resolve('download'));
-    }).then(msg => {
-        new Promise((resolve, reject) => { // Checksum
-            const sha1 = crypto.createHash('sha1');
+        request.get(URL)
+               .on('error', err => reject(err))
+               .pipe(fs.createWriteStream(dest))
+               .on('finish', () => resolve(1));
+    }).then(() => { // Checksum
+        const sha1 = crypto.createHash('sha1');
 
-            fs.createReadStream(dest)
-              .on('data', data => sha1.update(data))
-              .on('close', () => {
-                if (sha1.digest('Hex') !== HASH) return reject('hash');
-
-                resolve('checksum');
-            });
+        fs.createReadStream(dest)
+          .on('data', data => sha1.update(data))
+          .on('close', () => {
+            if (sha1.digest('Hex') !== HASH) throw new Error('hash');
         });
-    }).then(msg => {
+    }).then(() => { // Decompress
         const options = {
             dir: path.resolve('lib'),
             onEntry: (entry, zipfile) => {
@@ -51,17 +50,10 @@ function getLiblary() {
             }//onEntry
         };
 
-        extract(dest, options, err => {
-            if (err) throw err;
-
-            return 'decompress';
-        });
-    }).catch(err => {
-        if (err === 'hash') {
-            sleep(1000, getLiblary());
-        } else {
-            console.error(err);
-        }//if-else
+        extract(dest, options, err => { if (err) throw err; });
+    }).catch(() => {
+        // If throws error, waiting at least 1 second and then re-download
+        sleep((Math.random() + 1) * 1000, getLiblary());
     });
 }//getLiblary
 
