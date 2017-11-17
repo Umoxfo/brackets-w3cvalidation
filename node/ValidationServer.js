@@ -9,7 +9,6 @@
           vnu = dm.JAR_PATH;
 
     /**
-     * @private
      * Handler function for the w3cvalidator.validate command.
      */
     function run() {
