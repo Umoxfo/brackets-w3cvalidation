@@ -23,20 +23,20 @@ define(function (require, exports, module) {
     /**
      * Validation handler as a client
      */
-    function handleValidation(text, fullPath) {
-        let response = $.Deferred();
-        let result = {
-            errors: []
-        };
+    function handleValidation(text) {
+        let response = $.Deferred(),
+            result = { errors: [] };
 
-        $.ajax({
+        const request = {
             url: "http://localhost:8888/?out=json",
             type: 'POST',
             contentType: 'text/html; charset=utf-8',
             data: text,
             cache: false,
             processData: false
-        }).done(function (data, textStatus, jqXHR) {
+        };
+
+        Promise.resolve($.ajax(request)).then(data => {
             let messages = data.messages;
 
             if (messages.length) {
@@ -49,7 +49,7 @@ define(function (require, exports, module) {
                         case 'error':
                             type = CodeInspection.Type.ERROR;
                             break;
-                    }
+                    }//switch
 
                     result.errors.push({
                         pos: {
@@ -60,18 +60,22 @@ define(function (require, exports, module) {
                         type: type
                     });
                 });
-            }
+            }//if
 
             response.resolve(result);
+        }).catch(() => {
+            new Promise(resolve => {
+                setTimeout(resolve, (Math.random() + 1) * 1000);
+            }).then(handleValidation(text));
         });
 
         return response.promise();
-    }
+    }//handleValidation
 
     // Listen a file saved event
     function refreshValidation() {
         DocumentManager.getCurrentDocument().notifySaved();
-    }
+    }//refreshValidation
 
     /**
      * Validation Server launcher in standalone and
