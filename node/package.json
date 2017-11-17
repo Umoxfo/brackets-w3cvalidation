@@ -2,6 +2,7 @@
     "private": true,
     "dependencies": {
         "extract-zip": "latest",
-        "request": "latest"
+        "request": "latest",
+        "util.promisify": "latest"
     }
 }
