@@ -12,9 +12,12 @@
      * @private
      * Handler function for the w3cvalidator.validate command.
      */
-    function runServer() {
-        exec(`java -Xss1m -cp ${vnu} nu.validator.servlet.Main 8888`);
-    }
+    function run() {
+        dm.check().then(() => {
+            console.info('run');
+            execFile('java', ['-Xss1m', '-cp', vnu, 'nu.validator.servlet.Main', '8888']);
+        });
+    }//run
 
     /**
      * Initializes the test domain with several test commands.
