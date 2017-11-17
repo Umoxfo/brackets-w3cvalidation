@@ -4,10 +4,9 @@
 (function () {
     'use strict';
 
-    const exec = require('child_process').exec,
-          vnu = 'lib/nu.validator/vnu.jar';
-
-    require('./Dependencies');
+    const execFile = require('child_process').execFile,
+          dm = require('./DependencyManager'),
+          vnu = dm.JAR_PATH;
 
     /**
      * @private
