@@ -13,10 +13,10 @@ define(function (require, exports, module) {
         CommandManager = brackets.getModule('command/CommandManager'),
         DocumentManager = brackets.getModule('document/DocumentManager');
 
-    const w3cvalidatorSever = new NodeDomain('w3cvalidator', ExtensionUtils.getModulePath(module, 'node/ValidationServer'));
+    const nuValidatorSever = new NodeDomain('nu.validator', ExtensionUtils.getModulePath(module, 'node/ValidationServer'));
 
-    const COMMAND_ID = 'w3cvalidator.refresh',
-          PROVIDER_ID = 'w3cvalidator';
+    const COMMAND_ID = 'nu.validator.refresh',
+          PROVIDER_ID = 'nu.validator';
 
     //var Strings = require("strings");
 

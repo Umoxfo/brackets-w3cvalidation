@@ -24,17 +24,17 @@
      * @param {DomainManager} domainManager The DomainManager for the server
      */
     function init(domainManager) {
-        if (!domainManager.hasDomain('w3cvalidator')) {
-            domainManager.registerDomain('w3cvalidator', {
+        if (!domainManager.hasDomain('nu.validator')) {
+            domainManager.registerDomain('nu.validator', {
                 major: 0,
                 minor: 1
             });
         }
 
         domainManager.registerCommand(
-            'w3cvalidator',
+            'nu.validator',
             'runServer',
-            runServer,
+            run,
             false,
             'Runs the validation server in standalone.'
         );
