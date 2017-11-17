@@ -21,13 +21,6 @@ define(function (require, exports, module) {
     //var Strings = require("strings");
 
     /**
-     * Validation Server launcher in standalone
-     */
-    function runServer() {
-        w3cvalidatorSever.exec('runServer');
-    }
-
-    /**
      * Validation handler as a client
      */
     function handleValidation(text, fullPath) {
@@ -80,13 +73,21 @@ define(function (require, exports, module) {
         DocumentManager.getCurrentDocument().notifySaved();
     }
 
-    // Register the HTML Linting
-    AppInit.appReady(function () {
-        CodeInspection.register('html', {
-            name: PROVIDER_ID,
-            scanFileAsync: handleValidation
+    /**
+     * Validation Server launcher in standalone and
+     * register the HTML code inspection
+     */
+    function validationService() {
+        nuValidatorSever.exec('runServer').done(() => {
+            // Register the HTML Linting
+            AppInit.appReady(() => {
+                CodeInspection.register('html', {
+                    name: PROVIDER_ID,
+                    scanFileAsync: handleValidation
+                });
+            });
         });
-    });
+    }//validationService
 
     // Command
     //CommandManager.register(Strings.REFRESH_W3C_VALIDATION, COMMAND_ID, _refreshValidation);
@@ -97,5 +98,5 @@ define(function (require, exports, module) {
     editMenu.addMenuItem(COMMAND_ID, 'F9');
 
     // Server launcher when extension is loaded
-    runServer();
+    validationService();
 });
