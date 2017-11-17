@@ -6,12 +6,12 @@ define(function (require, exports, module) {
     'use strict';
 
     const NodeDomain = brackets.getModule('utils/NodeDomain'),
-        ExtensionUtils = brackets.getModule('utils/ExtensionUtils'),
-        CodeInspection = brackets.getModule('language/CodeInspection'),
-        AppInit = brackets.getModule('utils/AppInit'),
-        Menus = brackets.getModule('command/Menus'),
-        CommandManager = brackets.getModule('command/CommandManager'),
-        DocumentManager = brackets.getModule('document/DocumentManager');
+          ExtensionUtils = brackets.getModule('utils/ExtensionUtils'),
+          CodeInspection = brackets.getModule('language/CodeInspection'),
+          AppInit = brackets.getModule('utils/AppInit'),
+          Menus = brackets.getModule('command/Menus'),
+          CommandManager = brackets.getModule('command/CommandManager'),
+          DocumentManager = brackets.getModule('document/DocumentManager');
 
     const nuValidatorSever = new NodeDomain('nu.validator', ExtensionUtils.getModulePath(module, 'node/ValidationServer'));
 
