@@ -3,3 +3,4 @@ test/
 build/
 package-lock.json
 lib/
+update.bat
