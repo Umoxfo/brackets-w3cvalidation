@@ -6,10 +6,13 @@
 
 const path = require('path'),
       fs = require('fs'),
+      execFile = require('child_process').execFile,
       promisify = require('util.promisify'),
       request = require('request'),
+      rp = require('request-promise-native'),
       crypto = require('crypto'),
-      extract = require('extract-zip');
+      JSZip = require('jszip'),
+      mkdirp = require('mkdirp2');
 
 const VNU_VERSION = '17.11.1',
       URL = `https://github.com/validator/validator/releases/download/${VNU_VERSION}/vnu.jar_${VNU_VERSION}.zip`,
@@ -34,51 +37,59 @@ function sleep(time, callback) {
 
 /**
  * @private
- * Download
- */
-function download(url, output) {
-    return new Promise((resolve, reject) => {
-        request.get(url)
-               .on('error', err => reject(err))
-               .pipe(fs.createWriteStream(output))
-               .on('finish', () => resolve('download'));
-    });
-}//download
-
-/**
- * @private
- * Checksum by SHA-1
- */
-function checksum(file, hash) {
-    const sha1 = crypto.createHash('sha1');
-
-    return new Promise((resolve, reject) => {
-        fs.createReadStream(file)
-          .on('data', data => sha1.update(data))
-          .on('close', () => {
-            if (sha1.digest('Hex') === hash) {
-                resolve('hash check');
-            } else {
-                reject(new Error('Hash Error'));
-            }//if-else
-        });
-    });
-}//checksum
-
-/**
- * @private
  * Decompress
  */
-function decompress(file) {
-    const options = {
-        dir: LIB_PATH,
-        onEntry: (entry) => {
-            entry.fileName = entry.fileName.replace(/(\w+\/)/, 'nu.validator/')
-        }//onEntry
-    };
+function decompress(data) {
+    return JSZip.loadAsync(data, {
+        checkCRC32: true
+    }).then(zip => {
+        const dir = path.join(LIB_PATH, 'nu.validator'),
+              filenames = Object.keys(zip.files).filter(k => k != 'dist/');
 
-    return promisify(extract)(file, options);
+        return mkdirp.promise(dir).then(() => {
+            return Promise.all(filenames.map(i => {
+                return new Promise((resolve, reject) => {
+                    const relativePath = path.join(dir, i.replace(/.*?\//, ''));
+                    zip.files[i].nodeStream()
+                       .pipe(fs.createWriteStream(relativePath))
+                       .on('finish', () => resolve())
+                       .on('error', err => reject(err));
+                });
+            }));
+        });
+    });
 }//decompress
+
+/**
+ * @private
+ * Downloads the Nu Html Checker, the validation library.
+ */
+function getLiblary() {
+    const options = {
+        url: URL,
+        encoding: null
+    };
+    const sha1 = crypto.createHash('sha1');
+
+    return rp.get(options)
+    .on('data', chunk => sha1.update(chunk))
+    .then(body => {
+        return Promise.all([
+            new Promise((resolve, reject) => {
+                if (sha1.digest('Hex') === HASH) {
+                    resolve('download');
+                } else {
+                    reject(new Error('Hash Error'));
+                }
+            }),
+            decompress(body)
+        ]);
+    }).then(() => 'vnu')
+    .catch(() => {
+        // If throws error, waiting at least one second and then re-download
+        sleep((Math.random() + 1) * 1000, getLiblary);
+    });
+}//getLiblary
 
 /**
  * @private
