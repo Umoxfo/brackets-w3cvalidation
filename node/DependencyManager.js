@@ -20,9 +20,9 @@ const LIB_PATH = path.join(__dirname, 'lib'),
 
 /**
  * @const
- * @type {string}
+ * @type {string} path to the vnu.jar file
  */
-module.exports.JAR_PATH = FILE_PATH;
+module.exports.VALIDATOR_PATH = FILE_PATH;
 
 /**
  * @private

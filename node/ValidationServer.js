@@ -6,17 +6,13 @@
     'use strict';
 
     const execFile = require('child_process').execFile,
-          dm = require('./DependencyManager'),
-          vnu = dm.JAR_PATH;
+          dm = require('./DependencyManager');
 
     /**
      * Handler function for the w3cvalidator.validate command.
      */
     function run() {
-        dm.check().then(() => {
-            console.info('run');
-            execFile('java', ['-Xss1m', '-cp', vnu, 'nu.validator.servlet.Main', '8888']);
-        });
+        dm.check().then(() => execFile('java', ['-Xss1m', '-cp', dm.VALIDATOR_PATH, 'nu.validator.servlet.Main', '8888']));
     }//run
 
     /**
