@@ -29,7 +29,7 @@ module.exports.VALIDATOR_PATH = FILE_PATH;
  * The timeout with Promise support.
  */
 function sleep(time, callback) {
-    return new Promise(resolve => setTimeout(resolve, time)).then(callback());
+    return promisify(setTimeout)(time).then(() => callback());
 }//sleep
 
 /**
