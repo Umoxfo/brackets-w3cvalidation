@@ -40,7 +40,7 @@ define(function (require, exports, module) {
             let messages = data.messages;
 
             if (messages.length) {
-                messages.forEach(function (item) {
+                messages.forEach(item => {
                     let type;
                     switch (item.type) {
                         case 'warning':
@@ -66,7 +66,7 @@ define(function (require, exports, module) {
         }).catch(() => {
             new Promise(resolve => {
                 setTimeout(resolve, (Math.random() + 1) * 1000);
-            }).then(handleValidation(text));
+            }).then(() => handleValidation(text));
         });
 
         return response.promise();
