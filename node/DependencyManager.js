@@ -93,33 +93,28 @@ function getLiblary() {
 
 /**
  * @private
- * Download the validation library
+ * vnu.jar version
  */
-function getLiblary() {
-    const file = path.join(tmp, 'vnu.zip');
-
-    return new Promise(resolve => {
-        download(URL, file)
-        .then(() => checksum(file, HASH))
-        .then(() => decompress(file))
-        .then(() => resolve('vnu'))
-        .catch(() => {
-            // If throws error, waiting at least one second and then re-download
-            sleep((Math.random() + 1) * 1000, getLiblary);
+function getVersion() {
+    return promisify(execFile)('java', ['-jar', FILE_PATH, '--version'])
+    .then(output => {
+        return new Promise((resolve, reject) => {
+            if (output.trim() == VNU_VERSION) {
+                resolve('latest version');
+            } else {
+                reject('old version');
+            }//if-else
         });
     });
-}//getLiblary
+}//getVersion
 
 /*
  * Check the vnu.jar file exist
  */
 function check() {
-    return new Promise(resolve => {
-        promisify(fs.access)(FILE_PATH, fs.constants.R_OK)
-        .then(() => checksum(FILE_PATH, HASH))
-        .then(() => resolve())
-        .catch(() => getLiblary().then(() => resolve()));
-    });
+    return promisify(fs.access)(FILE_PATH, fs.constants.R_OK)
+        .then(() => getVersion())
+        .catch(() => getLiblary());
 }//check
 
 module.exports.check = check;
