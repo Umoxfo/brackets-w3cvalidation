@@ -1,7 +1,7 @@
 {
     "name": "umoxfo.w3cvalidation",
     "title": "W3C Validation (by Umoxfo)",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "Adds W3C validation support to Brackets.",
     "homepage": "https://github.com/Umoxfo/brackets-w3cvalidation",
     "keywords": [
@@ -17,11 +17,11 @@
         "brackets": ">=0.24.0"
     },
     "devDependencies": {
-        "del": "latest",
-        "uglify-es": "latest",
-        "event-stream": "latest",
         "gulp": "latest",
         "gulp-uglify": "latest",
-        "gulp-zip": "latest"
+        "gulp-zip": "latest",
+        "del": "latest",
+        "event-stream": "latest",
+        "uglify-es": "latest"
     }
 }
