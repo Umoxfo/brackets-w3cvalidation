@@ -12,7 +12,7 @@ const pkgInfo = require('./package.json'),
 
 gulp.task('clean', () => del(['build/']));
 
-gulp.task('resolve:node-deps', () => exec('cd ./node && npm install && npm update'));
+gulp.task('resolve:node-deps', () => exec('cd ./node && npm update'));
 
 gulp.task('build', ['clean', 'resolve:node-deps'], () => {
     let copy = gulp.src(['package.json', 'node/node_modules/**/*'], {base: '.'}).pipe(gulp.dest('build'));
