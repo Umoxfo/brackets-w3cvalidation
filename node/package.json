@@ -1,8 +1,10 @@
 {
     "private": true,
     "dependencies": {
-        "extract-zip": "latest",
+        "jszip": "latest",
+        "mkdirp2": "latest",
         "request": "latest",
+        "request-promise-native": "latest",
         "util.promisify": "latest"
     }
 }
