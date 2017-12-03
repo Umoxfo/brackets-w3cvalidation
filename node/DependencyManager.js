@@ -4,19 +4,19 @@
 
 'use strict';
 
-const os = require('os'),
-      path = require('path'),
+const path = require('path'),
       fs = require('fs'),
       promisify = require('util.promisify'),
       request = require('request'),
       crypto = require('crypto'),
       extract = require('extract-zip');
 
-const URL = 'https://github.com/validator/validator/releases/download/17.11.1/vnu.jar_17.11.1.zip',
-      HASH = '9051aebc6ea1474052d2a25e65dc58f12a8d5fda',
-      LIB_PATH = path.join(__dirname, 'lib'),
-      FILE_PATH = path.join(LIB_PATH, 'nu.validator/vnu.jar'),
-      tmp = os.tmpdir();
+const VNU_VERSION = '17.11.1',
+      URL = `https://github.com/validator/validator/releases/download/${VNU_VERSION}/vnu.jar_${VNU_VERSION}.zip`,
+      HASH = '9051aebc6ea1474052d2a25e65dc58f12a8d5fda';
+
+const LIB_PATH = path.join(__dirname, 'lib'),
+      FILE_PATH = path.join(LIB_PATH, 'nu.validator', 'vnu.jar');
 
 /**
  * @const
