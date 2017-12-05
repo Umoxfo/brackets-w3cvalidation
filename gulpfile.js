@@ -9,6 +9,7 @@ const del = require('del'),
       merge = require('event-stream').merge;
 const pkgInfo = require('./package.json'),
       uglify = composer(uglifyes, console);
+      uglify = require('gulp-uglify-es').default,
 
 gulp.task('clean', () => del(['build/']));
 
@@ -17,7 +18,7 @@ gulp.task('resolve:node-deps', () => exec('cd ./node && npm update'));
 gulp.task('build', ['clean', 'resolve:node-deps'], () => {
     let copy = gulp.src(['package.json', 'node/node_modules/**/*'], {base: '.'}).pipe(gulp.dest('build'));
     let minify = gulp.src(['main.js', 'node/*.js'], {base: '.'})
-                     .pipe(uglify({}))
+                     .pipe(uglify())
                      .pipe(gulp.dest('build'));
 
     return merge(copy, minify).on('end', () =>
