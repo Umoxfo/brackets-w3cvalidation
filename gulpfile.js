@@ -1,15 +1,12 @@
 'use strict';
 
 const gulp = require('gulp'),
-      composer = require('gulp-uglify/composer'),
-      zip = require('gulp-zip');
-const del = require('del'),
+      del = require('del'),
       exec = require('child_process').execSync,
-      uglifyes = require('uglify-es'),
-      merge = require('event-stream').merge;
-const pkgInfo = require('./package.json'),
-      uglify = composer(uglifyes, console);
       uglify = require('gulp-uglify-es').default,
+      merge = require('event-stream').merge,
+      zip = require('gulp-zip');
+const pkgInfo = require('./package.json');
 
 gulp.task('clean', () => del(['build/']));
 
