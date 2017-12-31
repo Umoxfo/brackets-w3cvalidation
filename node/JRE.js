@@ -23,12 +23,11 @@
 
 /*eslint-env node, es6 */
 
-'use strict';
+{
+    'use strict';
 
-(function () {
     const os = require('os'),
           path = require('path'),
-          execFile = require('child_process').execFile,
           request = require('request'),
           zlib = require('zlib'),
           tar = require('tar-fs');
@@ -66,8 +65,6 @@
 
     const URL = `https://download.oracle.com/otn-pub/java/jdk/${version}-b${build_number}/${hash}/jre-${version}-${platform}-${arch}.tar.gz`;
 
-    function check() {}
-
     function install() {
         const options = {
             url: URL,
@@ -84,16 +81,17 @@
             .on('error', err => reject(err))
             .pipe(zlib.createUnzip())
             .pipe(tar.extract(jreDir, {
-                map: header => header.name = header.name.replace(/.*?\//, ''),
+                map: header => {
+                    header.name = header.name.replace(/.*?\//, '');
+                    return header;
+                },
                 readable: true,
                 writable: true
             }))
-            .on('finish', () => {
-                process.env.PATH += path.delimiter + path.join(jreDir, javaBinDir);
-                resolve('JRE');
-            });
+            .on('finish', () => resolve('JRE'));
         });
     }//install
 
-    exports.installJRE = install;
-})();
+    process.env.PATH += path.delimiter + path.join(jreDir, javaBinDir);
+    exports.install = install;
+}
