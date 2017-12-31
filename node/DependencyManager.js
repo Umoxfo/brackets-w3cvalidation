@@ -91,30 +91,38 @@ function getLiblary() {
     });
 }//getLiblary
 
-/**
- * @private
- * vnu.jar version
- */
-function getVersion() {
-    return promisify(execFile)('java', ['-jar', FILE_PATH, '--version'])
-    .then(output => {
+    /**
+     * @private
+     * Check Java Rantime Engine
+     */
+    function checkJRE() {
         return new Promise((resolve, reject) => {
-            if (output.trim() == VNU_VERSION) {
-                resolve('latest version');
-            } else {
-                reject('old version');
-            }//if-else
-        });
-    });
-}//getVersion
+            execFile('java', ['-version'], (error, stdout, stderr) => {
+                const currentVersion = stderr.substring(14, stderr.lastIndexOf('"'));
 
-/*
- * Check the vnu.jar file exist
- */
-function check() {
-    return promisify(fs.access)(FILE_PATH, fs.constants.R_OK)
-        .then(() => getVersion())
-        .catch(() => getLiblary());
-}//check
+                (currentVersion < JAVA_VERSION) ? reject() : resolve();
+            });
+        }).catch(() => jre.install());
+    }//checkJRE
 
-module.exports.check = check;
+    /**
+     * @private
+     * Check the Nu Html Checker library
+     */
+    function checkHtmlValidator() {
+        return promisify(fs.access)(FILE_PATH, fs.constants.R_OK)
+        .then(() => promisify(execFile)('java', ['-jar', FILE_PATH, '--version']))
+        .then(output => {
+            if (output.trim() < VNU_VERSION) return Promise.reject();
+        }).catch(() => getLiblary());
+    }//checkHtmlValidator
+
+    /**
+     * Check the validator library and requires
+     */
+    function check() {
+        return checkJRE().then(() => checkHtmlValidator());
+    }//check
+
+    exports.check = check;
+}
