@@ -5,6 +5,7 @@
         "mkdirp2": "latest",
         "request": "latest",
         "request-promise-native": "latest",
+        "tar-fs": "latest",
         "util.promisify": "latest"
     }
 }
