@@ -2,51 +2,47 @@
 /*global require, Promise */
 /*eslint-env node, es6 */
 
-'use strict';
+{
+    'use strict';
 
-const path = require('path'),
-      fs = require('fs'),
-      execFile = require('child_process').execFile,
-      promisify = require('util.promisify'),
-      request = require('request'),
-      rp = require('request-promise-native'),
-      crypto = require('crypto'),
-      JSZip = require('jszip'),
-      mkdirp = require('mkdirp2');
+    require('request');
+    const rp = require('request-promise-native');
 
-const VNU_VERSION = '17.11.1',
-      URL = `https://github.com/validator/validator/releases/download/${VNU_VERSION}/vnu.jar_${VNU_VERSION}.zip`,
-      HASH = '9051aebc6ea1474052d2a25e65dc58f12a8d5fda';
+    const path = require('path'),
+          fs = require('fs'),
+          promisify = require('util.promisify'),
+          execFile = require('child_process').execFile,
+          crypto = require('crypto'),
+          JSZip = require('jszip'),
+          mkdirp = require('mkdirp2'),
+          jre = require('./JRE');
 
-const LIB_PATH = path.join(__dirname, 'lib'),
-      FILE_PATH = path.join(LIB_PATH, 'nu.validator', 'vnu.jar');
+    const JAVA_VERSION = '1.8.0_152',
+          VNU_VERSION = '17.11.1',
+          URL = `https://github.com/validator/validator/releases/download/${VNU_VERSION}/vnu.jar_${VNU_VERSION}.zip`,
+          HASH = '9051aebc6ea1474052d2a25e65dc58f12a8d5fda';
 
-/**
- * @const
- * @type {string} path to the vnu.jar file
- */
-module.exports.VALIDATOR_PATH = FILE_PATH;
+    const LIB_PATH = path.join(__dirname, 'lib'),
+          FILE_PATH = path.join(LIB_PATH, 'nu.validator', 'vnu.jar');
 
-/**
- * @private
- * The timeout with Promise support.
- */
-function sleep(time, callback) {
-    return promisify(setTimeout)(time).then(() => callback());
-}//sleep
+    /**
+     * @const
+     * @type {string} path to the vnu.jar file
+     */
+    exports.VALIDATOR_PATH = FILE_PATH;
 
-/**
- * @private
- * Decompress
- */
-function decompress(data) {
-    return JSZip.loadAsync(data, {
-        checkCRC32: true
-    }).then(zip => {
-        const dir = path.join(LIB_PATH, 'nu.validator'),
-              filenames = Object.keys(zip.files).filter(k => k != 'dist/');
+    /**
+     * @private
+     * Decompress
+     */
+    function decompress(data) {
+        const dir = path.join(LIB_PATH, 'nu.validator');
 
-        return mkdirp.promise(dir).then(() => {
+        return mkdirp.promise(dir)
+        .then(() => JSZip.loadAsync(data, {checkCRC32: true}))
+        .then(zip => {
+            const filenames = Object.keys(zip.files).filter(k => k != 'dist/');
+
             return Promise.all(filenames.map(i => {
                 return new Promise((resolve, reject) => {
                     const relativePath = path.join(dir, i.replace(/.*?\//, ''));
@@ -57,39 +53,37 @@ function decompress(data) {
                 });
             }));
         });
-    });
-}//decompress
+    }//decompress
 
-/**
- * @private
- * Downloads the Nu Html Checker, the validation library.
- */
-function getLiblary() {
-    const options = {
-        url: URL,
-        encoding: null
-    };
-    const sha1 = crypto.createHash('sha1');
+    /**
+     * @private
+     * Downloads the Nu Html Checker, the validation library.
+     */
+    function getLiblary() {
+        const options = {
+            url: URL,
+            encoding: null
+        };
+        const sha1 = crypto.createHash('sha1');
 
-    return rp.get(options)
-    .on('data', chunk => sha1.update(chunk))
-    .then(body => {
-        return Promise.all([
-            new Promise((resolve, reject) => {
-                if (sha1.digest('Hex') === HASH) {
-                    resolve('download');
-                } else {
-                    reject(new Error('Hash Error'));
-                }
-            }),
-            decompress(body)
-        ]);
-    }).then(() => 'vnu')
-    .catch(() => {
-        // If throws error, waiting at least one second and then re-download
-        sleep((Math.random() + 1) * 1000, getLiblary);
-    });
-}//getLiblary
+        return rp.get(options)
+        .on('data', chunk => sha1.update(chunk))
+        .then(body => {
+            return Promise.all([
+                new Promise((resolve, reject) => {
+                    if (sha1.digest('Hex') === HASH) {
+                        resolve('download');
+                    } else {
+                        reject('Hash Error');
+                    }
+                }),
+                decompress(body)
+            ]);
+        }).catch(() => {
+            // If throws error, waiting at least one second and then re-download
+            promisify(setTimeout)((Math.random() + 1) * 1000).then(() => getLiblary());
+        });
+    }//getLiblary
 
     /**
      * @private
