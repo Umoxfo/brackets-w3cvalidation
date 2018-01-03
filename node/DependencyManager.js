@@ -14,8 +14,7 @@
           execFile = require('child_process').execFile,
           crypto = require('crypto'),
           JSZip = require('jszip'),
-          mkdirp = require('mkdirp2'),
-          jre = require('./JRE');
+          mkdirp = require('mkdirp2');
 
     const JAVA_VERSION = '1.8.0_152',
           VNU_VERSION = '17.11.1',
@@ -33,7 +32,7 @@
 
     /**
      * @private
-     * Decompress
+     * Decompress the zip file
      */
     function decompress(data) {
         const dir = path.join(LIB_PATH, 'nu.validator');
@@ -96,7 +95,7 @@
 
                 (currentVersion < JAVA_VERSION) ? reject() : resolve();
             });
-        }).catch(() => jre.install());
+        }).catch(() => require('./JRE').install());
     }//checkJRE
 
     /**
