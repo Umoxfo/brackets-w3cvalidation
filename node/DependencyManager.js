@@ -106,7 +106,9 @@
         return promisify(fs.access)(FILE_PATH, fs.constants.R_OK)
         .then(() => promisify(execFile)('java', ['-jar', FILE_PATH, '--version']))
         .then(output => {
-            if (output.trim() < VNU_VERSION) return Promise.reject();
+            return new Promise((resolve, reject) => {
+                (output.trim() < VNU_VERSION) ? reject() : resolve();
+            });
         }).catch(() => getLiblary());
     }//checkHtmlValidator
 
