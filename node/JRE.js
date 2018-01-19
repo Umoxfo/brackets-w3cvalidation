@@ -32,9 +32,9 @@
           zlib = require('zlib'),
           tar = require('tar-fs');
 
-    const version = '8u152',
-          build_number = '16',
-          hash = 'aa0333dd3019491ca4f6ddbe78cdb6d0';
+    const version = '8u162',
+          build_number = '12',
+          hash = '0da788060d494f5095bf8624735fa2f1';
 
     let arch = os.arch();
     switch (arch) {
