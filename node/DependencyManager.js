@@ -14,10 +14,7 @@
           JSZip = require('jszip'),
           mkdirp = require('mkdirp2');
 
-    const JAVA_VERSION = '1.8.0_162',
-          VNU_VERSION = '17.11.1',
-          URL = `https://github.com/validator/validator/releases/download/${VNU_VERSION}/vnu.jar_${VNU_VERSION}.zip`,
-          HASH = '9051aebc6ea1474052d2a25e65dc58f12a8d5fda';
+    const VNU = require('./dependency.json').VNU;
 
     const LIB_PATH = path.join(__dirname, 'lib'),
           FILE_PATH = path.join(LIB_PATH, 'nu.validator', 'vnu.jar');
@@ -58,7 +55,7 @@
      */
     function getLiblary() {
         const options = {
-            url: URL,
+            url: `https://github.com/validator/validator/releases/download/${VNU.version}/vnu.jar_${VNU.version}.zip`,
             encoding: null
         };
         const sha1 = crypto.createHash('sha1');
@@ -68,7 +65,7 @@
         .then(body => {
             return Promise.all([
                 new Promise((resolve, reject) => {
-                    if (sha1.digest('Hex') === HASH) {
+                    if (sha1.digest('Hex') === VNU.hash) {
                         resolve('download');
                     } else {
                         reject('Hash Error');
@@ -105,7 +102,7 @@
         .then(() => promisify(execFile)('java', ['-jar', FILE_PATH, '--version']))
         .then(output => {
             return new Promise((resolve, reject) => {
-                (output.trim() < VNU_VERSION) ? reject() : resolve();
+                (output.trim() < VNU.version) ? reject() : resolve();
             });
         }).catch(() => getLiblary());
     }//checkHtmlValidator

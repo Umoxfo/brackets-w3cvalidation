@@ -1,0 +1,12 @@
+{
+    "JRE": {
+        "version": "1.8.0_162",
+        "product_version": "8u162",
+        "build_number": "12",
+        "hash": "0da788060d494f5095bf8624735fa2f1"
+    },
+    "VNU": {
+        "version": "17.11.1",
+        "hash": "9051aebc6ea1474052d2a25e65dc58f12a8d5fda"
+    }
+}

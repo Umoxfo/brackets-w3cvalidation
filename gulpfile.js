@@ -13,7 +13,7 @@ gulp.task('clean', () => del(['build/']));
 gulp.task('resolve:node-deps', () => exec('cd ./node && npm update'));
 
 gulp.task('build', ['clean', 'resolve:node-deps'], () => {
-    let copy = gulp.src(['package.json', 'node/node_modules/**/*'], {base: '.'}).pipe(gulp.dest('build'));
+    let copy = gulp.src(['package.json', 'node/node_modules/**/*', 'node/dependency.json'], {base: '.'}).pipe(gulp.dest('build'));
     let minify = gulp.src(['main.js', 'node/*.js'], {base: '.'})
                      .pipe(uglify())
                      .pipe(gulp.dest('build'));
