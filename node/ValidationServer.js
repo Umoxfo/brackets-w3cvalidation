@@ -3,14 +3,17 @@
 (function () {
     'use strict';
 
-    const execFile = require('child_process').execFile,
+    const spawn = require('child_process').spawn,
           dm = require('./DependencyManager');
+    let server;
 
     /**
-     * Handler function for the w3cvalidator.validate command.
+     * Run the html checking server.
      */
     function run() {
-        dm.check().then(() => execFile('java', ['-Xss1m', '-cp', dm.VALIDATOR_PATH, 'nu.validator.servlet.Main', '8888']));
+        dm.check().then(() => {
+            server = spawn('java', ['-Xss1m', '-cp', dm.VALIDATOR_PATH, 'nu.validator.servlet.Main', '8888']);
+        });
     }//run
 
     /**
@@ -27,10 +30,10 @@
 
         domainManager.registerCommand(
             'nu.validator',
-            'runServer',
+            'run',
             run,
             false,
-            'Runs the validation server in standalone.'
+            'Runs the validation server.'
         );
     }
 

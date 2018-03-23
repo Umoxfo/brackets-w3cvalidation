@@ -81,7 +81,7 @@ define(function (require, exports, module) {
      * register the HTML code inspection
      */
     function validationService() {
-        nuValidatorSever.exec('runServer').done(() => {
+        nuValidatorSever.exec('run').done(() => {
             // Register the HTML Linting
             AppInit.appReady(() => {
                 CodeInspection.register('html', {
