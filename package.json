@@ -1,7 +1,7 @@
 {
     "name": "umoxfo.w3cvalidation",
     "title": "W3C Validation (by Umoxfo)",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "description": "Adds W3C validation support to Brackets.",
     "homepage": "https://github.com/Umoxfo/brackets-w3cvalidation",
     "keywords": [
