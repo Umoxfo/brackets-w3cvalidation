@@ -33,15 +33,6 @@
           zlib = require('zlib'),
           tar = require('tar-fs');
 
-    let arch = os.arch();
-    switch (arch) {
-        case 'x64':
-            break;
-        case 'x86':
-        case 'ia32':
-            arch = 'i586';
-            break;
-    }
     const JRE = require('./dependency.json').JRE;
 
     let platform = os.platform(),
@@ -72,6 +63,19 @@
     }//check
 
     function install() {
+        /*
+         * Set the JRE download URL
+         */
+        let arch = os.arch();
+        switch (arch) {
+            case 'x64':
+                break;
+            case 'x86':
+            case 'ia32':
+                arch = 'i586';
+                break;
+        }
+
         const options = {
             url: `https://download.oracle.com/otn-pub/java/jdk/${JRE.product_version}-b${JRE.build_number}/${JRE.hash}/jre-${JRE.product_version}-${platform}-${arch}.tar.gz`,
             rejectUnauthorized: false,
