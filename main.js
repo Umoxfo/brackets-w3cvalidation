@@ -36,37 +36,31 @@ define(function (require, exports, module) {
             processData: false
         };
 
-        Promise.resolve($.ajax(request)).then(data => {
-            let messages = data.messages;
+        $.ajax(request).done(data => {
+            data.messages.forEach(item => {
+                let type;
+                switch (item.type) {
+                    case 'warning':
+                        type = CodeInspection.Type.WARNING;
+                        break;
+                    case 'error':
+                        type = CodeInspection.Type.ERROR;
+                        break;
+                } //switch
 
-            if (messages.length) {
-                messages.forEach(item => {
-                    let type;
-                    switch (item.type) {
-                        case 'warning':
-                            type = CodeInspection.Type.WARNING;
-                            break;
-                        case 'error':
-                            type = CodeInspection.Type.ERROR;
-                            break;
-                    }//switch
-
-                    result.errors.push({
-                        pos: {
-                            line: item.lastLine - 1,
-                            ch: 0
-                        },
-                        message: item.message,
-                        type: type
-                    });
+                result.errors.push({
+                    pos: {
+                        line: item.lastLine - 1,
+                        ch: 0
+                    },
+                    message: item.message,
+                    type: type
                 });
-            }//if
+            });
 
             response.resolve(result);
-        }).catch(() => {
-            new Promise(resolve => {
-                setTimeout(resolve, (Math.random() + 1) * 1000);
-            }).then(() => handleValidation(text));
+        }).fail(() => {
+            new Promise(resolve => setTimeout(resolve, (Math.random() + 1) * 1000)).then(() => validationCheck(text));
         });
 
         return response.promise();
