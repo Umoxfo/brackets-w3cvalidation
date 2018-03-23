@@ -99,8 +99,7 @@ define(function (require, exports, module) {
     CommandManager.register('Refresh W3C validation', COMMAND_ID, _refreshValidation);
 
     // Menu
-    const editMenu = Menus.getMenu(Menus.AppMenuBar.EDIT_MENU);
-    editMenu.addMenuItem(COMMAND_ID, 'F9');
+    Menus.getMenu(Menus.AppMenuBar.EDIT_MENU).addMenuItem(COMMAND_ID, 'F9');
 
     // Server launcher when the extension is loaded
     validationService();
