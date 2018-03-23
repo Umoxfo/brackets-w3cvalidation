@@ -84,8 +84,7 @@
      * Check the Nu Html Checker library
      */
     function checkHtmlValidator() {
-        return promisify(fs.access)(FILE_PATH, fs.constants.R_OK)
-        .then(() => promisify(execFile)('java', ['-jar', FILE_PATH, '--version']))
+        return promisify(execFile)('java', ['-jar', FILE_PATH, '--version'])
         .then(output => {
             return new Promise((resolve, reject) => {
                 (output.trim() < VNU.version) ? reject() : resolve();
