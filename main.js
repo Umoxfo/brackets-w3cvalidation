@@ -88,6 +88,13 @@ define(function (require, exports, module) {
                     name: PROVIDER_ID,
                     scanFileAsync: handleValidation
                 });
+
+                // Stop the server before remove the extension.
+                ExtensionManager.on('statusChange', () => {
+                    if (ExtensionManager.isMarkedForRemoval('umoxfo.w3cvalidation')) {
+                        nuValidatorSever.exec('exit');
+                    }
+                });
             });
         });
     }//validationService

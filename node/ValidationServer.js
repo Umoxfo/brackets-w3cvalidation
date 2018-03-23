@@ -17,7 +17,15 @@
     }//run
 
     /**
-     * Initializes the test domain with several test commands.
+     * Exit the html checking server.
+     */
+    function exit() {
+        server.kill('SIGINT');
+        server.stdin.end();
+    }
+
+    /**
+     * Initializes the nu.validator domain with several management commands.
      * @param {DomainManager} domainManager The DomainManager for the server
      */
     function init(domainManager) {
@@ -34,6 +42,14 @@
             run,
             false,
             'Runs the validation server.'
+        );
+
+        domainManager.registerCommand(
+            'nu.validator',
+            'exit',
+            exit,
+            false,
+            'Exits the validation server.'
         );
     }
 
