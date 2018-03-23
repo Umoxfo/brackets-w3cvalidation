@@ -9,10 +9,15 @@
 
     /**
      * Run the html checking server.
+     * @param {function()} cb Callback will be called when the validation server is ready.
      */
-    function run() {
+    function run(cb) {
         dm.check().then(() => {
             server = spawn('java', ['-Xss1m', '-cp', dm.VALIDATOR_PATH, 'nu.validator.servlet.Main', '8888']);
+            
+            server.stdout.on('data', data => {
+                if (data.includes("Initialization complete.")) { cb(null, null); }
+            });
         });
     }//run
 
@@ -40,7 +45,7 @@
             'nu.validator',
             'run',
             run,
-            false,
+            true,
             'Runs the validation server.'
         );
 
