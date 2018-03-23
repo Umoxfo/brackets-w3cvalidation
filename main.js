@@ -23,7 +23,7 @@ define(function (require, exports, module) {
     /**
      * Validation handler as a client
      */
-    function handleValidation(text) {
+    function validationCheck(text) {
         let response = $.Deferred(),
             result = { errors: [] };
 
@@ -70,10 +70,10 @@ define(function (require, exports, module) {
         });
 
         return response.promise();
-    }//handleValidation
+    }//validationCheck
 
     // Listen a file saved event
-    function refreshValidation() {
+    function _refreshValidation() {
         DocumentManager.getCurrentDocument().notifySaved();
     }//refreshValidation
 
@@ -87,7 +87,7 @@ define(function (require, exports, module) {
             AppInit.appReady(() => {
                 CodeInspection.register('html', {
                     name: PROVIDER_ID,
-                    scanFileAsync: handleValidation
+                    scanFileAsync: validationCheck
                 });
 
                 // Stop the server before remove the extension.
@@ -102,7 +102,7 @@ define(function (require, exports, module) {
 
     // Command
     //CommandManager.register(Strings.REFRESH_W3C_VALIDATION, COMMAND_ID, _refreshValidation);
-    CommandManager.register('Refresh W3C validation', COMMAND_ID, refreshValidation);
+    CommandManager.register('Refresh W3C validation', COMMAND_ID, _refreshValidation);
 
     // Menu
     const editMenu = Menus.getMenu(Menus.AppMenuBar.EDIT_MENU);
