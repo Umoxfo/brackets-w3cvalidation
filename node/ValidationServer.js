@@ -1,6 +1,6 @@
 /*eslint-env node, es6 */
 
-(function () {
+{
     'use strict';
 
     const spawn = require('child_process').spawn,
@@ -59,4 +59,4 @@
     }
 
     exports.init = init;
-}());
+}
