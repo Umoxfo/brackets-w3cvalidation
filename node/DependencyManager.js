@@ -4,12 +4,12 @@
     'use strict';
 
     require('request');
-    const rp = require('request-promise-native');
 
     const path = require('path'),
           fs = require('fs'),
           promisify = require('util.promisify'),
           execFile = require('child_process').execFile,
+          rp = require('request-promise-native'),
           crypto = require('crypto'),
           JSZip = require('jszip'),
           mkdirp = require('mkdirp2');
