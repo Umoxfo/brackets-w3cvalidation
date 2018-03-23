@@ -28,6 +28,7 @@
 
     const os = require('os'),
           path = require('path'),
+          execFile = require('child_process').execFile,
           request = require('request'),
           zlib = require('zlib'),
           tar = require('tar-fs');
@@ -60,6 +61,15 @@
 
     const jreDir = path.join(__dirname, 'jre');
 
+    function check() {
+        return new Promise((resolve, reject) => {
+            execFile('java', ['-version'], (error, stdout, stderr) => {
+                const currentVersion = stderr.substring(14, stderr.lastIndexOf('"'));
+
+                (currentVersion < JRE.version) ? reject() : resolve();
+            });
+        }).catch(() => install());
+    }//check
 
     function install() {
         const options = {
@@ -89,5 +99,5 @@
     }//install
 
     process.env.PATH += path.delimiter + path.join(jreDir, javaBinDir);
-    exports.install = install;
+    exports.checkVersion = check;
 }

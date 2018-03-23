@@ -81,20 +81,6 @@
 
     /**
      * @private
-     * Check Java Rantime Engine
-     */
-    function checkJRE() {
-        return new Promise((resolve, reject) => {
-            execFile('java', ['-version'], (error, stdout, stderr) => {
-                const currentVersion = stderr.substring(14, stderr.lastIndexOf('"'));
-
-                (currentVersion < JAVA_VERSION) ? reject() : resolve();
-            });
-        }).catch(() => require('./JRE').install());
-    }//checkJRE
-
-    /**
-     * @private
      * Check the Nu Html Checker library
      */
     function checkHtmlValidator() {
@@ -111,7 +97,7 @@
      * Check the validator library and requires
      */
     function check() {
-        return checkJRE().then(() => checkHtmlValidator());
+        return require('./JRE').checkVersion().then(() => checkHtmlValidator());
     }//check
 
     exports.check = check;
