@@ -12,6 +12,13 @@
     ],
     "categories": "linting",
     "author": "Makoto Sakaguchi <ycco34vx@gmail.com>",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Umoxfo/brackets-w3cvalidation.git"
+    },
+    "bugs": {
+        "url": "https://github.com/Umoxfo/brackets-w3cvalidation/issues"
+    },
     "license": "MIT",
     "engines": {
         "brackets": ">=0.24.0"
