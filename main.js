@@ -72,7 +72,7 @@ define(function (require, exports, module) {
     }//refreshValidation
 
     /**
-     * Validation Server launcher in standalone and
+     * A validation server launcher in standalone and
      * register the HTML code inspection
      */
     function validationService() {
@@ -102,6 +102,6 @@ define(function (require, exports, module) {
     const editMenu = Menus.getMenu(Menus.AppMenuBar.EDIT_MENU);
     editMenu.addMenuItem(COMMAND_ID, 'F9');
 
-    // Server launcher when extension is loaded
+    // Server launcher when the extension is loaded
     validationService();
 });
