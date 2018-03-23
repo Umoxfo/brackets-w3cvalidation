@@ -24,10 +24,10 @@
         "brackets": ">=0.24.0"
     },
     "devDependencies": {
-        "del": "latest",
-        "event-stream": "latest",
-        "gulp": "latest",
-        "gulp-uglify-es": "latest",
-        "gulp-zip": "latest"
+        "del": "^3.0.0",
+        "event-stream": "^3.3.4",
+        "gulp": "^3.9.1",
+        "gulp-uglify-es": "^1.0.1",
+        "gulp-zip": "^4.1.0"
     }
 }

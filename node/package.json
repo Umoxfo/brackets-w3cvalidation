@@ -1,11 +1,11 @@
 {
     "private": true,
     "dependencies": {
-        "jszip": "latest",
-        "mkdirp2": "latest",
-        "request": "latest",
-        "request-promise-native": "latest",
-        "tar-fs": "latest",
-        "util.promisify": "latest"
+        "jszip": "^3.1.5",
+        "mkdirp2": "^1.0.3",
+        "request": "^2.85.0",
+        "request-promise-native": "^1.0.5",
+        "tar-fs": "^1.16.0",
+        "util.promisify": "^1.0.0"
     }
 }
