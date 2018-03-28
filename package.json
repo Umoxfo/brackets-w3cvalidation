@@ -4,13 +4,6 @@
     "version": "1.0.6",
     "description": "Adds W3C validation support to Brackets.",
     "homepage": "https://github.com/Umoxfo/brackets-w3cvalidation",
-    "keywords": [
-        "html",
-        "lint",
-        "linting",
-        "linter"
-    ],
-    "categories": "linting",
     "author": "Makoto Sakaguchi <ycco34vx@gmail.com>",
     "repository": {
         "type": "git",
@@ -20,6 +13,13 @@
         "url": "https://github.com/Umoxfo/brackets-w3cvalidation/issues"
     },
     "license": "MIT",
+    "keywords": [
+        "html",
+        "lint",
+        "linting",
+        "linter"
+    ],
+    "categories": "linting",
     "engines": {
         "brackets": ">=0.24.0"
     },
