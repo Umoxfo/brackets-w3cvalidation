@@ -23,6 +23,9 @@
     "engines": {
         "brackets": ">=0.24.0"
     },
+    "scripts": {
+        "postinstall": "cd node && npm install"
+    },
     "devDependencies": {
         "del": "^3.0.0",
         "event-stream": "^3.3.4",
