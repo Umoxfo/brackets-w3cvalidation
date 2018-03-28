@@ -21,74 +21,76 @@
  * SOFTWARE.
  */
 
-/*eslint-env node, es6 */
+'use strict';
 
-{
-    'use strict';
+/* eslint-disable indent */
+const execFile = require('child_process').execFile,
+      os = require('os'),
+      path = require('path'),
+      request = require('request'),
+      tar = require('tar-fs'),
+      zlib = require('zlib');
+/* eslint-enable indent */
 
-    const os = require('os'),
-          path = require('path'),
-          execFile = require('child_process').execFile,
-          request = require('request'),
-          zlib = require('zlib'),
-          tar = require('tar-fs');
+const JRE = require('./dependency.json').JRE;
 
-    const JRE = require('./dependency.json').JRE;
+let platform,
+    javaBinDir = 'bin';
+switch (os.platform()) {
+    case 'darwin':
+        platform = 'macosx';
+        javaBinDir = 'Contents/Home/bin';
+        break;
+    case 'win32':
+        platform = 'windows';
+        break;
+    case 'linux':
+        platform = 'linux';
+        break;
+}
 
-    let platform = os.platform(),
-        javaBinDir = 'bin';
-    switch (platform) {
-        case 'darwin':
-            platform = 'macosx';
-            javaBinDir = 'Contents/Home/bin';
+const jreDir = path.join(__dirname, 'jre');
+
+process.env.PATH += path.join(path.delimiter, jreDir, javaBinDir);
+
+function check() {
+    return new Promise((resolve, reject) => {
+        execFile('java', ['-version'], (error, stdout, stderr) => {
+            const currentVersion = stderr.substring(14, stderr.lastIndexOf('"'));
+
+            (currentVersion >= JRE.version) ? resolve() : reject();
+        });
+    }).catch(() => install());
+}//check
+
+/*
+ * Set the JRE download URL
+ */
+const option = () => {
+    let arch = os.arch();
+    switch (arch) {
+        case 'x64':
             break;
-        case 'win32':
-            platform = 'windows';
-            break;
-        case 'linux':
-            platform = 'linux';
+        case 'x86':
+        case 'ia32':
+            arch = 'i586';
             break;
     }
 
-    const jreDir = path.join(__dirname, 'jre');
-
-    function check() {
-        return new Promise((resolve, reject) => {
-            execFile('java', ['-version'], (error, stdout, stderr) => {
-                const currentVersion = stderr.substring(14, stderr.lastIndexOf('"'));
-
-                (currentVersion < JRE.version) ? reject() : resolve();
-            });
-        }).catch(() => install());
-    }//check
-
-    function install() {
-        /*
-         * Set the JRE download URL
-         */
-        let arch = os.arch();
-        switch (arch) {
-            case 'x64':
-                break;
-            case 'x86':
-            case 'ia32':
-                arch = 'i586';
-                break;
+    return {
+        url: `https://download.oracle.com/otn-pub/java/jdk/${JRE.product_version}-b${JRE.build_number}/${JRE.hash}/jre-${JRE.product_version}-${platform}-${arch}.tar.gz`,
+        rejectUnauthorized: false,
+        agent: false,
+        headers: {
+            connection: 'keep-alive',
+            'Cookie': 'gpw_e24=http://www.oracle.com/; oraclelicense=accept-securebackup-cookie'
         }
+    };
+};
 
-        const options = {
-            url: `https://download.oracle.com/otn-pub/java/jdk/${JRE.product_version}-b${JRE.build_number}/${JRE.hash}/jre-${JRE.product_version}-${platform}-${arch}.tar.gz`,
-            rejectUnauthorized: false,
-            agent: false,
-            headers: {
-                connection: 'keep-alive',
-                'Cookie': 'gpw_e24=http://www.oracle.com/; oraclelicense=accept-securebackup-cookie'
-            }
-        };
-
-        return new Promise((resolve, reject) => {
-            request.get(options)
-            .on('error', err => reject(err))
+function install() {
+    return new Promise((resolve, reject) => {
+        request.get(option())
             .pipe(zlib.createUnzip())
             .pipe(tar.extract(jreDir, {
                 map: header => {
@@ -98,10 +100,9 @@
                 readable: true,
                 writable: true
             }))
-            .on('finish', () => resolve('JRE'));
-        });
-    }//install
+            .on('finish', resolve)
+            .on('error', err => reject(err));
+    });
+}//install
 
-    process.env.PATH += path.delimiter + path.join(jreDir, javaBinDir);
-    exports.checkVersion = check;
-}
+module.exports.checkJRE = check;

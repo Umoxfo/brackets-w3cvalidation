@@ -1,10 +1,11 @@
-/*eslint-env node, es6 */
+
+'use strict';
 
 {
-    'use strict';
-
-    const spawn = require('child_process').spawn,
-          dm = require('./DependencyManager');
+    /* eslint-disable indent */
+    const dm = require('./DependencyManager'),
+          spawn = require('child_process').spawn;
+    /* eslint-enable indent */
     let server;
 
     /**
@@ -13,10 +14,10 @@
      */
     function run(cb) {
         dm.check().then(() => {
-            server = spawn('java', ['-Xss1m', '-cp', dm.VALIDATOR_PATH, 'nu.validator.servlet.Main', '8888']);
-            
+            server = spawn('java', ['-Xss1m', '-cp', `${dm.VALIDATOR_PATH}/vnu.jar`, 'nu.validator.servlet.Main', '8888']);
+
             server.stdout.on('data', data => {
-                if (data.includes("Initialization complete.")) { cb(null, null); }
+                if (data.includes('Initialization complete.')) { cb(null, null); }
             });
         });
     }//run
@@ -58,5 +59,5 @@
         );
     }
 
-    exports.init = init;
+    module.exports.init = init;
 }

@@ -1,9 +1,11 @@
-/*global define, brackets */
-/*eslint-env node, es6, jquery */
 
-define(function (require, exports, module) {
-    'use strict';
+/* global define, brackets */
+/* eslint-env jquery, es6 */
 
+'use strict';
+
+define((require, exports, module) => {
+    /* eslint-disable indent */
     const AppInit = brackets.getModule('utils/AppInit'),
           CodeInspection = brackets.getModule('language/CodeInspection'),
           CommandManager = brackets.getModule('command/CommandManager'),
@@ -17,6 +19,7 @@ define(function (require, exports, module) {
 
     const COMMAND_ID = 'nu.validator.refresh',
           PROVIDER_ID = 'nu.validator';
+    /* eslint-enable indent */
 
     //var Strings = require("strings");
 
@@ -24,8 +27,10 @@ define(function (require, exports, module) {
      * Validation handler as a client
      */
     function validationCheck(text) {
-        let response = $.Deferred(),
-            result = { errors: [] };
+        /* eslint-disable indent */
+        const response = new $.Deferred(),
+              result = {errors: []};
+        /* eslint-enable indent */
 
         const request = {
             url: "http://localhost:8888/?out=json",
