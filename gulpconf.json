@@ -1,0 +1,20 @@
+{
+    "code": {
+        "src": [
+            "main.js",
+            "node/*.js"
+        ]
+    },
+    "resource": {
+        "src": [
+            "package.json",
+            "LICENSE",
+            "node/dependency.json",
+            "node/package.json",
+            "node/node_modules/**",
+            "!node/node_modules/**/*test*",
+            "!node/node_modules/**/test/**",
+            "!node/node_modules/**/test"
+        ]
+    }
+}
