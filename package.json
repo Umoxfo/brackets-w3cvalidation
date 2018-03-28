@@ -1,9 +1,9 @@
 {
     "name": "umoxfo.w3cvalidation",
     "title": "W3C Validation (by Umoxfo)",
-    "version": "1.0.6",
     "description": "Adds W3C validation support to Brackets.",
     "homepage": "https://github.com/Umoxfo/brackets-w3cvalidation",
+    "version": "1.1.0",
     "author": "Makoto Sakaguchi <ycco34vx@gmail.com>",
     "repository": {
         "type": "git",
