@@ -82,10 +82,6 @@ define((require, exports, module) => {
         return response.promise();
     }//validationCheck
 
-    // Listen a file saved event
-    function _refreshValidation() {
-        DocumentManager.getCurrentDocument().notifySaved();
-    }//refreshValidation
 
     /**
      * A validation server launcher in standalone and
@@ -110,9 +106,14 @@ define((require, exports, module) => {
         });
     }//validationService
 
+    // Send a file saved event
+    function refreshValidation() {
+        DocumentManager.getCurrentDocument().notifySaved();
+    }//refreshValidation
+
     // Command
-    //CommandManager.register(Strings.REFRESH_W3C_VALIDATION, COMMAND_ID, _refreshValidation);
-    CommandManager.register('Refresh W3C validation', COMMAND_ID, _refreshValidation);
+    CommandManager.register('Refresh W3C validation', COMMAND_ID, refreshValidation);
+    //CommandManager.register(Strings.REFRESH_W3C_VALIDATION, COMMAND_ID, refreshValidation);
 
     // Menu
     Menus.getMenu(Menus.AppMenuBar.EDIT_MENU).addMenuItem(COMMAND_ID, 'F9');
