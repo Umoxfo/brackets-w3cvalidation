@@ -52,7 +52,7 @@ define((require, exports, module) => {
             data.messages.forEach(item => {
                 let type;
                 switch (item.type) {
-                    case 'warning':
+                    case 'info':
                         type = CodeInspection.Type.WARNING;
                         break;
                     case 'error':
@@ -62,11 +62,15 @@ define((require, exports, module) => {
 
                 result.errors.push({
                     pos: {
+                        line: (item.firstLine ? item.firstLine : item.lastLine) - 1,
+                        ch: item.firstColumn
+                    },
+                    endPos: {
                         line: item.lastLine - 1,
-                        ch: 0
+                        ch: item.lastColumn
                     },
                     message: item.message,
-                    type: type
+                    type
                 });
             });
 
