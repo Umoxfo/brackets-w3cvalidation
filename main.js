@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) Makoto Sakaguchi. All rights reserved.
+ * Licensed under the MIT License. See LICENSE in the project root for license information.
+ */
 
 /* global define, brackets */
 /* eslint-env jquery, es6 */
