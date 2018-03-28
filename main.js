@@ -27,6 +27,16 @@ define((require, exports, module) => {
 
     //var Strings = require("strings");
 
+    // Validation request
+    const request = {
+        url: 'http://localhost:8888/?out=json',
+        type: 'POST',
+        contentType: 'text/html; charset=utf-8',
+        data: '',
+        cache: false,
+        processData: false
+    };
+
     /**
      * Validation handler as a client
      */
@@ -36,14 +46,7 @@ define((require, exports, module) => {
               result = {errors: []};
         /* eslint-enable indent */
 
-        const request = {
-            url: "http://localhost:8888/?out=json",
-            type: 'POST',
-            contentType: 'text/html; charset=utf-8',
-            data: text,
-            cache: false,
-            processData: false
-        };
+        request.data = text;
 
         $.ajax(request).done(data => {
             data.messages.forEach(item => {
