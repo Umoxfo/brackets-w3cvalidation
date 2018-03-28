@@ -95,9 +95,9 @@ define((require, exports, module) => {
                     scanFileAsync: validationCheck
                 });
 
-                // Stop the server before remove the extension.
-                ExtensionManager.on('statusChange', () => {
-                    if (ExtensionManager.isMarkedForRemoval('umoxfo.w3cvalidation')) {
+                // Stop the server when status changed (ex. remove, update, etc.)
+                ExtensionManager.on('statusChange', (_, extensionID) => {
+                    if (extensionID === 'umoxfo.w3cvalidation') {
                         nuValidatorSever.exec('exit');
                     }
                 });
