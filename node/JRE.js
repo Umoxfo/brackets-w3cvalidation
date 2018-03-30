@@ -100,7 +100,7 @@ function install() {
                 readable: true,
                 writable: true
             }))
-            .on('finish', resolve)
+            .on('finish', () => resolve())
             .on('error', err => reject(err));
     });
 }//install

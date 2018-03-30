@@ -84,8 +84,7 @@ define((require, exports, module) => {
 
 
     /**
-     * A validation server launcher in standalone and
-     * register the HTML code inspection
+     * Lunch a validation server and register the HTML code inspection
      */
     function validationService() {
         nuValidatorSever.exec('run').done(() => {
