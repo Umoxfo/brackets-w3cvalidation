@@ -3,8 +3,8 @@
  * Licensed under the MIT License. See LICENSE in the project root for license information.
  */
 
-/* global define, brackets */
-/* eslint-env jquery, es6 */
+/* global brackets */
+/* eslint-env amd, es6, jquery */
 
 'use strict';
 
