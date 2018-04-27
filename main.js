@@ -82,7 +82,6 @@ define((require, exports, module) => {
         return response.promise();
     }//validationCheck
 
-
     /**
      * Lunch a validation server and register the HTML code inspection
      */

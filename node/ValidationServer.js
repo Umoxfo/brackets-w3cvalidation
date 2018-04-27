@@ -14,7 +14,7 @@
 
     /**
      * Run the html checking server.
-     * @param {function()} cb Callback will be called when the validation server is ready.
+     * @param {function(err, result)} cb Callback will be called when the validation server is ready.
      */
     function run(cb) {
         dm.check().then(() => {
