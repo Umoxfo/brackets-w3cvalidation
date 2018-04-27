@@ -37,15 +37,16 @@ function decompress(data) {
     return mkdirp.promise(VALIDATOR_HOME)
         .then(() => JSZip.loadAsync(data, {checkCRC32: true}))
         .then(zip => {
-            const filenames = Object.keys(zip.files).filter(k => k != 'dist/');
+            const files = zip.filter(relativePath => relativePath != 'dist/');
 
-            return Promise.all(filenames.map(i => new Promise((resolve, reject) => {
-                const relativePath = path.join(VALIDATOR_HOME, i.replace(/.*?\//, ''));
-                zip.files[i].nodeStream()
-                    .pipe(fs.createWriteStream(relativePath))
-                    .on('finish', () => resolve())
-                    .on('error', err => reject(err));
-            })));
+            return Promise.all(files.map(file =>
+                new Promise((resolve, reject) => {
+                    file.nodeStream()
+                        .pipe(fs.createWriteStream(path.join(VALIDATOR_HOME, file.name.replace(/.*?\//, ''))))
+                        .on('finish', () => resolve())
+                        .on('error', err => reject(err));
+                })
+            ));
         });
 }//decompress
 
