@@ -30,9 +30,10 @@
         "del": "^3.0.0",
         "eslint": "^4.19.1",
         "eslint-plugin-node": "^6.0.1",
-        "event-stream": "^3.3.4",
         "gulp": "^4.0.0",
-        "gulp-uglify-es": "^1.0.1",
-        "gulp-zip": "^4.1.0"
+        "gulp-filter": "^5.1.0",
+        "gulp-uglify-es": "^1.0.4",
+        "gulp-vinyl-zip": "^2.1.0",
+        "merge2": "^1.2.2"
     }
 }
