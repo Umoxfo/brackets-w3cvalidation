@@ -62,7 +62,7 @@ define((require, exports, module) => {
 
                 result.errors.push({
                     pos: {
-                        line: (item.firstLine ? item.firstLine : item.lastLine) - 1,
+                        line: (item.firstLine || item.lastLine) - 1,
                         ch: item.firstColumn
                     },
                     endPos: {

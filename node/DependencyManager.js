@@ -37,7 +37,7 @@ function decompress(data) {
     return mkdirp.promise(VALIDATOR_HOME)
         .then(() => JSZip.loadAsync(data, {checkCRC32: true}))
         .then(zip => {
-            const files = zip.filter(relativePath => relativePath != 'dist/');
+            const files = zip.filter(relativePath => relativePath !== 'dist/');
 
             return Promise.all(files.map(file =>
                 new Promise((resolve, reject) => {
