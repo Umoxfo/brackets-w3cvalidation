@@ -16,5 +16,19 @@
             "!node/node_modules/**/test/**",
             "!node/node_modules/**/test"
         ]
+    },
+    "dist": {
+        "src": [
+            "main.js",
+            "package.json",
+            "LICENSE",
+            "node/*.js",
+            "node/dependency.json",
+            "node/package.json",
+            "node/node_modules/**",
+            "!node/node_modules/**/*test*",
+            "!node/node_modules/**/test/**",
+            "!node/node_modules/**/test"
+        ]
     }
 }
