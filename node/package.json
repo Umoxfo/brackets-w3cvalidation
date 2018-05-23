@@ -2,8 +2,8 @@
     "private": true,
     "dependencies": {
         "jszip": "^3.1.5",
-        "mkdirp2": "^1.0.3",
-        "request": "^2.86.0",
+        "mkdirp2": "^1.0.4",
+        "request": "^2.87.0",
         "request-promise-native": "^1.0.5",
         "tar-fs": "^1.16.2",
         "util.promisify": "^1.0.0"
