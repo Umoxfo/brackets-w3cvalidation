@@ -3,9 +3,9 @@
     "dependencies": {
         "jszip": "^3.1.5",
         "mkdirp2": "^1.0.4",
-        "request": "^2.87.0",
+        "request": "^2.88.0",
         "request-promise-native": "^1.0.5",
-        "tar-fs": "^1.16.2",
+        "tar-fs": "^2.0.0",
         "util.promisify": "^1.0.0"
     }
 }
