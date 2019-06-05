@@ -27,11 +27,11 @@
         "postinstall": "cd node && npm install"
     },
     "devDependencies": {
-        "del": "^3.0.0",
-        "eslint": "^5.13.0",
-        "eslint-plugin-node": "^8.0.1",
-        "gulp": "^4.0.0",
-        "gulp-filter": "^5.1.0",
+        "del": "^4.1.1",
+        "eslint": "^5.16.0",
+        "eslint-plugin-node": "^9.1.0",
+        "gulp": "^4.0.2",
+        "gulp-filter": "^6.0.0",
         "gulp-uglify-es": "^1.0.4",
         "gulp-vinyl-zip": "^2.1.2",
         "merge2": "^1.2.3"

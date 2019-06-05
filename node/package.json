@@ -1,10 +1,10 @@
 {
     "private": true,
     "dependencies": {
-        "jszip": "^3.1.5",
+        "jszip": "^3.2.1",
         "mkdirp2": "^1.0.4",
         "request": "^2.88.0",
-        "request-promise-native": "^1.0.5",
+        "request-promise-native": "^1.0.7",
         "tar-fs": "^2.0.0",
         "util.promisify": "^1.0.0"
     }
